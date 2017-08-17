@@ -23,10 +23,18 @@ var EICAS = {
 		m.SelectedSk = -1; # indicates which softkey gets a frame (softkey number)
 
 		m.Pages[0] = canvas_eicas.new(group.createChild('group'));
-		m.Pages[1] = canvas_doors.new(group.createChild('group'));
-		m.Pages[2] = canvas_fuel.new(group.createChild('group'));
-		m.Pages[3] = canvas_apu.new(group.createChild('group'));
-		m.Pages[4] = canvas_flightctrl.new(group.createChild('group'));
+		m.Pages[1] = canvas_flightctrl.new(group.createChild('group'));
+		m.Pages[2] = canvas_hydr.new(group.createChild('group'));
+		m.Pages[3] = canvas_engine.new(group.createChild('group'));
+		m.Pages[4] = canvas_fuel.new(group.createChild('group'));
+
+		m.Pages[5] = canvas_electr.new(group.createChild('group'));
+		m.Pages[6] = canvas_ecs.new(group.createChild('group'));
+		m.Pages[7] = canvas_ice.new(group.createChild('group'));
+		m.Pages[8] = canvas_apu.new(group.createChild('group'));
+
+		m.Pages[9] = canvas_cpcs.new(group.createChild('group'));
+		m.Pages[10] = canvas_doors.new(group.createChild('group'));
 
 		m.SkInstance = canvas_softkeys.new(group.createChild('group'));
 		m.SkInstance.setSoftkeys(EicasSoftkeys[0]);
@@ -73,7 +81,6 @@ var EICAS = {
 				# main menu
 				if(input == 1 or input == 5) {
 					# activate "CAPT SYSTEM" or "F/O SYSTEM" page
-					# where is the difference?
 					me.SkInstance.setSoftkeys(EicasSoftkeys[1]);
 					me.ShownSkPage = 1;
 				}
@@ -87,13 +94,13 @@ var EICAS = {
 				# "SYSTEM 1/3" page
 				if(input == 1) {
 					# activate "FLIGHT CONTROL" page
-					me.ActivatePage(4);
+					me.ActivatePage(1);
 					me.SelectedSkPage = 1;
 					me.SelectedSk = 0;
 				}
 				else if(input == 4) {
 					# activate "FUEL" page
-					me.ActivatePage(2);
+					me.ActivatePage(4);
 					me.SelectedSkPage = 1;
 					me.SelectedSk = 3;
 				}
@@ -105,9 +112,27 @@ var EICAS = {
 			}
 			else if(me.ShownSkPage == 2) {
 				# "SYSTEM 2/3" page
-				if(input == 4) {
+				if(input == 1) {
+					# activate "ELECTR" page
+					me.ActivatePage(5);
+					me.SelectedSkPage = 2;
+					me.SelectedSk = 0;
+				}
+				else if(input == 2) {
+					# activate "ECS" page
+					me.ActivatePage(6);
+					me.SelectedSkPage = 2;
+					me.SelectedSk = 1;
+				}
+				else if(input == 3) {
+					# activate "ICE" page
+					me.ActivatePage(7);
+					me.SelectedSkPage = 2;
+					me.SelectedSk = 2;
+				}
+				else if(input == 4) {
 					# activate "APU" page
-					me.ActivatePage(3);
+					me.ActivatePage(8);
 					me.SelectedSkPage = 2;
 					me.SelectedSk = 3;
 				}
@@ -119,9 +144,15 @@ var EICAS = {
 			}
 			else if(me.ShownSkPage == 3) {
 				# "SYSTEM 3/3" page
-				if(input == 2) {
+				if(input == 1) {
+					# activate "CPCS" page
+					me.ActivatePage(9);
+					me.SelectedSkPage = 3;
+					me.SelectedSk = 0;
+				}
+				else if(input == 2) {
 					# activate "DOORS" page
-					me.ActivatePage(1);
+					me.ActivatePage(10);
 					me.SelectedSkPage = 3;
 					me.SelectedSk = 1;
 				}
@@ -196,7 +227,7 @@ var eicasListener = setlistener("/sim/signals/fdm-initialized", func () {
 
 	var eicasCanvas = canvas.new({
 		"name": "EICAS",
-		"size": [512, 512],
+		"size": [1024, 1024],
 		"view": [800, 950],
 		"mipmapping": 1
 	});
